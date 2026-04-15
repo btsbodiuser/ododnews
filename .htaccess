@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Don't rewrite requests for backend
+RewriteRule ^backend/ - [L]
+
+# Serve static assets from dist/ directory directly
+RewriteRule ^(assets/.*)$ dist/$1 [L]
+RewriteRule ^(favicon\.svg|icons\.svg|placeholder\.jpg)$ dist/$1 [L]
+
+# SPA fallback - serve dist/index.html for everything else
+RewriteRule !^dist/ dist/index.html [L]
