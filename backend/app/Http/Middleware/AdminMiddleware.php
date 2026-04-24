@@ -9,7 +9,8 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (! $request->user() || ! $request->user()->is_admin) {
+        $user = $request->user();
+        if (! $user || ! $user->canAccessAdmin()) {
             if ($request->expectsJson()) {
                 abort(403);
             }

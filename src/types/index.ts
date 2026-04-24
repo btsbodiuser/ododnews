@@ -80,3 +80,9 @@ export interface User {
   email: string;
   is_admin: boolean;
 }
+
+export interface FooterLink {
+  label: string;
+  url: string;
+  external?: boolean;
+}

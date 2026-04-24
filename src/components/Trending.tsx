@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { TrendingUp } from 'lucide-react';
+import { Flame } from 'lucide-react';
 import { getTrendingArticles } from '@/services/api';
 import ArticleCard from './ArticleCard';
 
@@ -13,19 +13,23 @@ export default function Trending() {
   if (articles.length === 0) return null;
 
   return (
-    <section>
-      <div className="flex items-center gap-2 mb-6">
-        <TrendingUp className="w-5 h-5 text-red-600" />
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white">Эрэлттэй мэдээ</h2>
+    <section className="rounded-2xl bg-brand-gradient-soft border border-border p-5">
+      <div className="flex items-center gap-2 mb-5">
+        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-gradient text-white">
+          <Flame className="w-4 h-4 fill-current animate-hot-pulse" />
+        </span>
+        <h2 className="text-lg font-black uppercase tracking-wider">
+          <span className="text-brand-gradient">Яг одоо халуун</span>
+        </h2>
       </div>
       <div className="space-y-5">
         {articles.slice(0, 6).map((article, index) => (
-          <div key={article.id} className="flex gap-3 items-start">
-            <span className="text-3xl font-black text-gray-200 dark:text-gray-700 leading-none min-w-[2rem]">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <ArticleCard article={article} variant="horizontal" />
-          </div>
+          <ArticleCard
+            key={article.id}
+            article={article}
+            variant="hot"
+            rank={index + 1}
+          />
         ))}
       </div>
     </section>

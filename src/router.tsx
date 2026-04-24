@@ -8,6 +8,10 @@ const ArticlePage = lazy(() => import('@/pages/Article'));
 const SearchPage = lazy(() => import('@/pages/Search'));
 const AuthorPage = lazy(() => import('@/pages/Author'));
 const LoginPage = lazy(() => import('@/pages/Login'));
+const AboutPage = lazy(() => import('@/pages/About'));
+const ContactPage = lazy(() => import('@/pages/Contact'));
+const AdvertisingPage = lazy(() => import('@/pages/Advertising'));
+const PrivacyPage = lazy(() => import('@/pages/Privacy'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
 function Lazy({ children }: { children: React.ReactNode }) {
@@ -25,6 +29,10 @@ export const router = createBrowserRouter([
       { path: 'search', element: <Lazy><SearchPage /></Lazy> },
       { path: 'author/:slug', element: <Lazy><AuthorPage /></Lazy> },
       { path: 'login', element: <Lazy><LoginPage /></Lazy> },
+      { path: 'about', element: <Lazy><AboutPage /></Lazy> },
+      { path: 'contact', element: <Lazy><ContactPage /></Lazy> },
+      { path: 'advertising', element: <Lazy><AdvertisingPage /></Lazy> },
+      { path: 'privacy', element: <Lazy><PrivacyPage /></Lazy> },
       { path: '*', element: <Lazy><NotFound /></Lazy> },
     ],
   },

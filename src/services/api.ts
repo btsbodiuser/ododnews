@@ -1,5 +1,5 @@
 import api from '@/lib/api';
-import type { Article, Author, Category, PaginatedResponse, User } from '@/types';
+import type { Article, Author, Category, FooterLink, PaginatedResponse, User } from '@/types';
 
 // Articles
 export const getArticles = (params?: Record<string, string | number>) =>
@@ -42,6 +42,22 @@ export const getAuthors = () =>
 
 export const getAuthor = (slug: string) =>
   api.get<{ data: Author }>(`/authors/${slug}`).then((r) => r.data.data);
+
+// Footer links — controlled from backend, falls back to static defaults
+const DEFAULT_FOOTER_LINKS: FooterLink[] = [
+  { label: 'Нүүр', url: '/' },
+  { label: 'Бидний тухай', url: '/about' },
+  { label: 'Холбоо барих', url: '/contact' },
+  { label: 'Зар сурталчилгаа', url: '/advertising' },
+  { label: 'Нууцлалын бодлого', url: '/privacy' },
+  { label: 'Хайлт', url: '/search' },
+];
+
+export const getFooterLinks = () =>
+  api
+    .get<{ data: FooterLink[] }>('/footer-links')
+    .then((r) => (r.data.data?.length ? r.data.data : DEFAULT_FOOTER_LINKS))
+    .catch(() => DEFAULT_FOOTER_LINKS);
 
 // Auth
 export const login = (email: string, password: string) =>
