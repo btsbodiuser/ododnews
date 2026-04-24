@@ -31,7 +31,7 @@ class SubscribeController extends Controller
         );
 
         if ($sub->wasRecentlyCreated) {
-            AdminNotification::push('subscriber.new', "Шинэ захиалагч: {$sub->email}", url('/admin/subscribers'), 'success');
+            AdminNotification::notify('subscriber.new', "Шинэ захиалагч: {$sub->email}", url('/admin/subscribers'), 'success');
         }
 
         return response()->json([

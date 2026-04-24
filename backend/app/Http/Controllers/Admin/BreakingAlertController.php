@@ -38,7 +38,7 @@ class BreakingAlertController extends Controller
         $alert = BreakingAlert::create($data);
 
         if ($alert->status === 'draft') {
-            AdminNotification::push(
+            AdminNotification::notify(
                 'breaking.draft',
                 "Шинэ яаралтай мэдээний ноорог: {$alert->headline}",
                 route('admin.breaking.edit', $alert),

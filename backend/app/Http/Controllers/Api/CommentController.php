@@ -57,7 +57,7 @@ class CommentController extends Controller
         ]);
 
         if ($comment->status === 'pending') {
-            AdminNotification::push(
+            AdminNotification::notify(
                 'comment.pending',
                 "Шинэ сэтгэгдэл: {$article->title}",
                 url('/admin/comments?status=pending'),

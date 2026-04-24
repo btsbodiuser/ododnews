@@ -23,7 +23,7 @@ class AdminNotification extends Model
         return $q->whereNull('read_at');
     }
 
-    public static function push(string $type, string $title, ?string $link = null, string $level = 'info', ?string $message = null, ?int $userId = null): self
+    public static function notify(string $type, string $title, ?string $link = null, string $level = 'info', ?string $message = null, ?int $userId = null): self
     {
         return static::create([
             'user_id' => $userId,

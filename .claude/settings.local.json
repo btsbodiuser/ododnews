@@ -4,7 +4,8 @@
       "Bash(npx tsc *)",
       "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\(Object.keys\\(l\\).filter\\(k => /insta|face|you|sparkl|chevron|flame|film|mail/i.test\\(k\\)\\).sort\\(\\).join\\('\\\\n'\\)\\)\")",
       "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\(Object.keys\\(l\\).filter\\(k => /twitter|tiktok|instagram|facebook|youtube|share|globe|at[A-Z]|link/i.test\\(k\\)\\).sort\\(\\).join\\('\\\\n'\\)\\)\")",
-      "Bash(php artisan *)"
+      "Bash(php artisan *)",
+      "Bash(php backend/artisan route:list)"
     ]
   }
 }
