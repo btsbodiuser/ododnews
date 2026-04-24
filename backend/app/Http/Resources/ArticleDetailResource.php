@@ -36,6 +36,7 @@ class ArticleDetailResource extends JsonResource
             'related' => ArticleResource::collection($this->whenLoaded('related')),
             'meta' => $this->meta,
             'created_at' => $this->created_at->toISOString(),
+            'updated_at' => $this->updated_at?->toISOString(),
         ];
     }
 }

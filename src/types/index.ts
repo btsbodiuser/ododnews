@@ -56,6 +56,7 @@ export interface Article {
   related?: Article[];
   meta?: Record<string, unknown>;
   created_at: string;
+  updated_at?: string;
 }
 
 export interface PaginatedResponse<T> {

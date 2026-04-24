@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Clock, Eye, ArrowLeft, Share2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { getArticle } from '@/services/api';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,65 @@ export default function ArticlePage() {
     queryFn: () => getArticle(slug!),
     enabled: !!slug,
   });
+
+  useEffect(() => {
+    if (!article) return;
+
+    document.title = `${article.seo_title || article.title} — ODOD News`;
+
+    const setMeta = (selector: string, attr: 'name' | 'property', key: string, value: string) => {
+      let el = document.head.querySelector<HTMLMetaElement>(selector);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.content = value;
+    };
+    const desc = article.seo_description || article.excerpt || '';
+    setMeta('meta[name="description"]', 'name', 'description', desc);
+    setMeta('meta[property="og:title"]', 'property', 'og:title', article.title);
+    setMeta('meta[property="og:description"]', 'property', 'og:description', desc);
+    setMeta('meta[property="og:type"]', 'property', 'og:type', 'article');
+    setMeta('meta[property="og:url"]', 'property', 'og:url', window.location.href);
+    if (article.featured_image) {
+      setMeta('meta[property="og:image"]', 'property', 'og:image', article.featured_image);
+      setMeta('meta[name="twitter:image"]', 'name', 'twitter:image', article.featured_image);
+    }
+    setMeta('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
+    setMeta('meta[name="twitter:title"]', 'name', 'twitter:title', article.title);
+
+    const ld = {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: article.title,
+      description: desc,
+      image: article.featured_image ? [article.featured_image] : [],
+      datePublished: article.published_at,
+      dateModified: article.updated_at ?? article.published_at,
+      author: article.author ? [{ '@type': 'Person', name: article.author.name }] : undefined,
+      publisher: {
+        '@type': 'Organization',
+        name: 'ODOD News',
+        logo: { '@type': 'ImageObject', url: `${window.location.origin}/ododnews/logo.png` },
+      },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': window.location.href },
+      articleSection: article.category?.name,
+      keywords: article.tags?.map((t) => t.name).join(', '),
+    };
+    let script = document.head.querySelector<HTMLScriptElement>('script#article-jsonld');
+    if (!script) {
+      script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.id = 'article-jsonld';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(ld);
+
+    return () => {
+      document.head.querySelector('#article-jsonld')?.remove();
+    };
+  }, [article]);
 
   if (isLoading) {
     return (
